@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document Management System</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f0f4ff;
+      margin: 0;
+      padding: 30px;
+      color: #1e293b;
+    }
+    .container {
+      max-width: 800px;
+      margin: auto;
+      background: white;
+      padding: 25px;
+      border-radius: 15px;
+      box-shadow: 0 4px 15px #ccd5e5;
+    }
+    h1 { color: #2563eb; }
+    input, button {
+      padding: 12px;
+      margin: 8px 0;
+      border-radius: 7px;
+      border: 1px solid #cbd5e1;
+    }
+    button {
+      background: #2563eb;
+      color: white;
+      cursor: pointer;
+      border: none;
+    }
+    li {
+      background: #eff6ff;
+      padding: 12px;
+      margin: 8px 0;
+      border-radius: 7px;
+    }
+    .search { width: 90%; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>📁 Document Management System</h1>
+    <p>Upload, manage and search your documents.</p>
+
+    <h3>Upload Document</h3>
+    <input type="file" id="fileInput" multiple>
+    <button onclick="uploadFiles()">Upload</button>
+
+    <h3>Search Documents</h3>
+    <input class="search" id="searchInput"
+      placeholder="Search documents..."
+      oninput="showFiles()">
+
+    <h3>My Documents</h3>
+    <ul id="fileList"></ul>
+  </div>
+
+  <script>
+    let documents = [];
+
+    function uploadFiles() {
+      const input = document.getElementById("fileInput");
+
+      for (const file of input.files) {
+        documents.push({
+          name: file.name,
+          size: file.size
+        });
+      }
+
+      input.value = "";
+      showFiles();
+    }
+
+    function showFiles() {
+      const search = document.getElementById("searchInput")
+        .value.toLowerCase();
+
+      const list = document.getElementById("fileList");
+      list.innerHTML = "";
+
+      documents
+        .filter(file => file.name.toLowerCase().includes(search))
+        .forEach(file => {
+          const item = document.createElement("li");
+          item.textContent = file.name + " (" +
+            (file.size / 1024).toFixed(1) + " KB)";
+          list.appendChild(item);
+        });
+    }
+  </script>
+</body>
+</html>
